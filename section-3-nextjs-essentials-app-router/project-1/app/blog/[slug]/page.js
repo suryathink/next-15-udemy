@@ -1,12 +1,12 @@
 import Link from "next/link";
 import React from "react";
 
-const BlogPage = () => {
+const BlogPage = ({ params }) => {
   return (
     <main>
-      <h1>The Blog</h1>
-      <p><Link href=></Link></p>
-      <p><Link></Link></p>
+      <h1>Blog</h1>
+      {/* using params.slug you can access the slug value here */}
+      <p>{params.slug}</p>
     </main>
   );
 };
