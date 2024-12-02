@@ -1,7 +1,19 @@
-import React from "react";
-import classes from "./page.module.css";
+import React, { Suspense } from "react";
 import Link from "next/link";
+
+import classes from "./page.module.css";
 import MealsGrid from "@/components/meals/meals-grid";
+import { getMeals } from "@/lib/meals";
+import MealsLoadingPage from "./loading-out";
+
+// this component will fetch the data
+async function Meals() {
+  const meals = await getMeals();
+  return <MealsGrid meals={meals} />;
+}
+
+//  this was a server component (as we haven't made it client component using "use client")
+//  we can make server component as async , as we need time to fetch data from databse
 
 const MealsPage = () => {
   return (
@@ -19,7 +31,9 @@ const MealsPage = () => {
         </p>
       </header>
       <main className={classes.main}>
-        <MealsGrid />
+        <Suspense fallback={<MealsLoadingPage />}>
+          <Meals />
+        </Suspense>
       </main>
     </>
   );
