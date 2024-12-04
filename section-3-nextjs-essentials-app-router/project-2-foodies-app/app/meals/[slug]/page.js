@@ -3,6 +3,22 @@ import { getMeal } from "@/lib/meals";
 import classes from "./page.module.css";
 import { notFound } from "next/navigation";
 
+// adding metadata to those pages which are dynamic
+export async function generateMetadata({ params }) {
+  const meal = getMeal(params.slug);
+
+  if (!meal) {
+    // then show mw the closest not found page
+    // hook given by nextjs
+    notFound();
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 export default function MealDetailsPage({ params }) {
   const meal = getMeal(params.slug);
   if (!meal) {
